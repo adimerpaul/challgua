@@ -98,11 +98,11 @@ function login() {
       proxy.$alert.success('Bienvenido ', user.name)
       proxy.$router.push('/')
     })
-    .catch(error => {
-      proxy.$alert.error(error.response.data.message, 'Error')
-    }).finally(() => {
-    loading.value = false
-  })
+    // .catch(error => {
+    //   proxy.$alert.error(error.response.data.message, 'Error')
+    // }).finally(() => {
+    //   loading.value = false
+    // })
 }
 </script>
 <style scoped>
