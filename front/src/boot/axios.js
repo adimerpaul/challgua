@@ -40,7 +40,7 @@ export default boot(({ app, router }) => {
       if (!value) return ''
       return new Date(value).toLocaleTimeString()
     },
-    textCapitalize: (value) => {
+    textUpper: (value) => {
       if (!value) return ''
       const lower = value.toLowerCase()
       return lower.charAt(0).toUpperCase() + lower.slice(1)

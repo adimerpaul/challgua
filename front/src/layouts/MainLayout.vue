@@ -119,9 +119,10 @@ onMounted(() => {
     { title: 'Principal', icon: 'home', link: '/', can: 'Todos' },
     { title: 'Usuarios', icon: 'people', link: '/usuarios', can: 'Admin' },
     { title: 'Productos', icon: 'shopping_cart', link: '/productos', can: 'Admin' },
-    { title: 'Nueva Venta', icon: 'add_shopping_cart', link: '/ventas/add', can: 'Todos' },
-    { title: 'Ventas', icon: 'storefront', link: '/ventas', can: 'Todos' },
-    { title: 'Metricas', icon: 'analytics', link: '/metricas', can: 'Admin' },
+    // { path: 'venta', name: 'venta', component: () => import('pages/ventas/Ventas.vue'), meta: { requiresAuth: true } },
+    // { path: 'ventaNuevo', name: 'ventaNuevo', component: () => import('pages/ventas/VentaNew.vue'), meta: { requiresAuth: true } },
+    { title: 'Ventas', icon: 'shopping_bag', link: '/venta', can: 'Todos' },
+    { title: 'Nueva Venta', icon: 'add_shopping_cart', link: '/ventaNuevo', can: 'Todos' },
   ]
   linksList.value = baseLinks
 
