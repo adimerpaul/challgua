@@ -29,6 +29,14 @@ class User extends Authenticatable
         'role',
         'avatar',
     ];
+    protected $appends = ['color'];
+    public function getColorAttribute(){
+        $roles = [
+            'Admin' => 'red',
+            'Usuario' => 'green',
+        ];
+        return $roles[$this->role] ?? 'blue';
+    }
 
     /**
      * The attributes that should be hidden for serialization.
