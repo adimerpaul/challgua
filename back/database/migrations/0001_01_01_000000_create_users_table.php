@@ -17,11 +17,12 @@ return new class extends Migration
             $table->string('username');
             $table->string('active')->default('1');
             $table->string('agencia')->nullable()->default('Challgua');
-            $table->string('role')->nullable()->default('user');
+            $table->string('role')->nullable()->default('Usuario');
             $table->string('avatar')->nullable()->default('default.png');
             $table->string('email')->nullable()->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });
