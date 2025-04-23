@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
@@ -99,5 +100,17 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
         ]);
+
+        $sqlFile = base_path('database/seeders/productos_202504230342.sql');
+        $sqlContent = file_get_contents($sqlFile);
+        DB::unprepared($sqlContent);
+
+        $sqlFile = base_path('database/seeders/categorias_202504230342.sql');
+        $sqlContent = file_get_contents($sqlFile);
+        DB::unprepared($sqlContent);
+
+        $sqlFile = base_path('database/seeders/subcategorias_202504230342.sql');
+        $sqlContent = file_get_contents($sqlFile);
+        DB::unprepared($sqlContent);
     }
 }
