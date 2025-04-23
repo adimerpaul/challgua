@@ -409,6 +409,9 @@ export default {
         this.productosVentas = [];
         Imprimir.nota(res.data);
         this.receta_id = null;
+        this.$nextTick(() => {
+          this.$refs.inputBuscarProducto?.focus();
+        });
         this.productosGet()
       }).catch((error) => {
         this.loading = false;
