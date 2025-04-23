@@ -63,7 +63,7 @@
                 <div class="col-12 col-md-2"></div>
                 <div class="col-12 col-md-8 text-subtitle q-pt-lg">
                   <q-separator />
-                  Copyright © {{ new Date().getFullYear() }} Cine aventura. Todos los derechos reservados.
+                  Copyright © {{ new Date().getFullYear() }} Farmacia challgua. Todos los derechos reservados.
                 </div>
                 <div class="col-12 col-md-2"></div>
               </div>
@@ -98,11 +98,11 @@ function login() {
       proxy.$alert.success('Bienvenido ', user.name)
       proxy.$router.push('/')
     })
-    // .catch(error => {
-    //   proxy.$alert.error(error.response.data.message, 'Error')
-    // }).finally(() => {
-    //   loading.value = false
-    // })
+    .catch(error => {
+      proxy.$alert.error(error.response.data.message, 'Error')
+    }).finally(() => {
+    loading.value = false
+  })
 }
 </script>
 <style scoped>
