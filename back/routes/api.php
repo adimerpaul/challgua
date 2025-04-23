@@ -26,6 +26,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/productos/{producto}', [App\Http\Controllers\ProductoController::class, 'update']);
     Route::delete('/productos/{producto}', [App\Http\Controllers\ProductoController::class, 'destroy']);
 
+
+    Route::post('/searchCliente', [App\Http\Controllers\ClienteController::class, 'searchCliente']);
+
+    Route::post('/ventas', [App\Http\Controllers\VentaController::class, 'store']);
+    Route::get('/ventas', [App\Http\Controllers\VentaController::class, 'index']);
+    Route::put('/ventasAnular/{venta}', [App\Http\Controllers\VentaController::class, 'anular']);
+    Route::put('/tipoVentasChange/{venta}', [App\Http\Controllers\VentaController::class, 'tipoVentasChange']);
+
 //    Route::get('/productosPorVencer', [App\Http\Controllers\CompraController::class, 'productosPorVencer']);
 //    Route::get('/productosVencidos', [App\Http\Controllers\CompraController::class, 'productosVencidos']);
 //    Route::get('/productos/{id}/historial-compras', [App\Http\Controllers\CompraController::class, 'historialCompras']);
