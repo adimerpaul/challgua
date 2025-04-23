@@ -18,4 +18,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{user}', [App\Http\Controllers\UserController::class, 'destroy']);
     Route::put('/updatePassword/{user}', [App\Http\Controllers\UserController::class, 'updatePassword']);
     Route::get('/usersSucursal', [App\Http\Controllers\UserController::class, 'usersSucursal']);
+
+
+    Route::post('/productos', [App\Http\Controllers\ProductoController::class, 'store']);
+    Route::get('/productosAll', [App\Http\Controllers\ProductoController::class, 'productosAll']);
+    Route::get('/productos', [App\Http\Controllers\ProductoController::class, 'index']);
+    Route::put('/productos/{producto}', [App\Http\Controllers\ProductoController::class, 'update']);
+    Route::delete('/productos/{producto}', [App\Http\Controllers\ProductoController::class, 'destroy']);
+
+//    Route::get('/productosPorVencer', [App\Http\Controllers\CompraController::class, 'productosPorVencer']);
+//    Route::get('/productosVencidos', [App\Http\Controllers\CompraController::class, 'productosVencidos']);
+//    Route::get('/productos/{id}/historial-compras', [App\Http\Controllers\CompraController::class, 'historialCompras']);
+
 });
