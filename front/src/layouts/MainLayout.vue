@@ -118,7 +118,6 @@ onMounted(() => {
   const baseLinks = [
     { title: 'Principal', icon: 'home', link: '/', can: 'Todos' },
     { title: 'Usuarios', icon: 'people', link: '/usuarios', can: 'Admin' },
-    { title: 'Confirmar reserva', icon: 'shopping_bag', link: '/reservas/lista', can: 'Todos' },
     { title: 'Productos', icon: 'shopping_cart', link: '/productos', can: 'Admin' },
     { title: 'Nueva Venta', icon: 'add_shopping_cart', link: '/ventas/add', can: 'Todos' },
     { title: 'Ventas', icon: 'storefront', link: '/ventas', can: 'Todos' },

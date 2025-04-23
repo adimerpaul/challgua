@@ -1,49 +1,5 @@
 <template>
   <q-page class="q-pa-xs">
-<!--    <q-table :rows="productos" :columns="columns" dense wrap-cells flat bordered :rows-per-page-options="[0]"-->
-<!--              title="Productos" hide-bottom>-->
-<!--      <template v-slot:top-right>-->
-<!--&lt;!&ndash;        btn descargar excel&ndash;&gt;-->
-<!--        <q-btn color="primary" label="Descargar" no-caps  icon="fa-solid fa-file-excel" :loading="loading" @click="exportExcel" />-->
-<!--          <q-btn color="green" label="Nuevo" @click="productoNew" no-caps  icon="add_circle_outline" :loading="loading" />-->
-<!--          <q-input v-model="filter" label="Buscar" dense outlined debounce="300" @update:modelValue="productosGet">-->
-<!--            <template v-slot:append>-->
-<!--              <q-icon name="search" />-->
-<!--            </template>-->
-<!--          </q-input>-->
-<!--      </template>-->
-<!--      <template v-slot:body-cell-actions="props">-->
-<!--        <q-td :props="props">-->
-<!--          <q-btn-dropdown label="Opciones" no-caps size="10px" dense color="primary">-->
-<!--              <q-list>-->
-<!--                <q-item clickable @click="productoEdit(props.row)" v-close-popup>-->
-<!--                  <q-item-section avatar>-->
-<!--                    <q-icon name="edit" />-->
-<!--                  </q-item-section>-->
-<!--                  <q-item-section>-->
-<!--                    <q-item-label>Editar</q-item-label>-->
-<!--                  </q-item-section>-->
-<!--                </q-item>-->
-<!--                <q-item clickable @click="productoDelete(props.row.id)" v-close-popup>-->
-<!--                  <q-item-section avatar>-->
-<!--                    <q-icon name="delete" />-->
-<!--                  </q-item-section>-->
-<!--                  <q-item-section>-->
-<!--                    <q-item-label>Eliminar</q-item-label>-->
-<!--                  </q-item-section>-->
-<!--                </q-item>-->
-<!--              </q-list>-->
-<!--          </q-btn-dropdown>-->
-<!--        </q-td>-->
-<!--      </template>-->
-<!--      <template v-slot:body-cell-role="props">-->
-<!--        <q-td :props="props">-->
-<!--          <q-chip :label="props.row.role"-->
-<!--                  :color="props.row.color"-->
-<!--                  text-color="white" dense  size="14px"/>-->
-<!--        </q-td>-->
-<!--      </template>-->
-<!--    </q-table>-->
 <q-card flat bordered>
   <q-card-section class="q-pa-xs">
     <div class="text-right">
@@ -118,40 +74,75 @@
               {{ producto.nombre }}
             </div>
           </td>
+<!--          <td>-->
+<!--            <div style="max-width: 200px; wrap-option: wrap;line-height: 0.9;">-->
+<!--            {{ producto.descripcion }}-->
+<!--            </div>-->
+<!--          </td>-->
+<!--          <td>-->
+<!--            <div style="max-width: 80px; wrap-option: wrap;line-height: 0.9;">-->
+<!--              {{ producto.unidad }}-->
+<!--            </div>-->
+<!--          </td>-->
           <td>
-            <div style="max-width: 200px; wrap-option: wrap;line-height: 0.9;">
-            {{ producto.descripcion }}
-            </div>
-          </td>
-          <td>
-            <div style="max-width: 80px; wrap-option: wrap;line-height: 0.9;">
-              {{ producto.unidad }}
-            </div>
-          </td>
-          <td>
-<!--            {{ producto.precio }}-->
             <input
               v-model.number="producto.precio"
               type="number"
               step="0.01"
               min="0"
-              style="width: 60px; text-align: right"
+              style="width: 55px; text-align: right"
               @keyup="debouncedCambioPrecio(producto)"
             />
           </td>
           <td>
-<!--            {{ producto.stock }}-->
             <input
-              v-model.number="producto.stock"
+              v-model.number="producto.cantidadAlmacen"
               type="number"
               step="1"
               min="0"
-              style="width: 60px; text-align: right"
-              @keyup="debouncedCambioStock(producto)"
+              style="width: 50px; text-align: right"
+              @keyup="debouncedCambioA(producto)"
             />
           </td>
-          <td>{{ producto.stock_minimo }}</td>
-          <td>{{ producto.stock_maximo }}</td>
+          <td>
+            <input
+              v-model.number="producto.cantidadSucursal1"
+              type="number"
+              step="1"
+              min="0"
+              style="width: 50px; text-align: right"
+              @keyup="debouncedCambio1(producto)"
+            />
+          </td>
+          <td>
+            <input
+              v-model.number="producto.cantidadSucursal2"
+              type="number"
+              step="1"
+              min="0"
+              style="width: 50px; text-align: right"
+              @keyup="debouncedCambio2(producto)"
+            />
+          </td>
+          <td>
+            <input
+              v-model.number="producto.cantidadSucursal3"
+              type="number"
+              step="1"
+              min="0"
+              style="width: 50px; text-align: right"
+              @keyup="debouncedCambio3(producto)"
+            />
+          </td>
+          <td>
+            <input
+              v-model.number="producto.barra"
+              style="width: 150px; text-align: right"
+              @keyup="debouncedCambioBarra(producto)"
+            />
+          </td>
+          <td>{{ producto.stock }}</td>
+
         </tr>
       </tbody>
     </q-markup-table>
@@ -184,9 +175,10 @@
             <q-input v-model="producto.descripcion" label="Descripción" dense outlined hint="" />
             <q-input v-model="producto.unidad" label="Unidad" dense outlined hint="" />
             <q-input v-model="producto.precio" label="Precio" dense outlined hint="" type="number" step="0.01" />
-            <q-input v-model="producto.stock" label="Stock" dense outlined hint="" />
-            <q-input v-model="producto.stock_minimo" label="Stock mínimo" dense outlined hint="" />
-            <q-input v-model="producto.stock_maximo" label="Stock máximo" dense outlined hint="" />
+<!--            <q-input v-model="producto.stock" label="Stock" dense outlined hint="" />-->
+            <q-input v-model="producto.barra" label="Código de barras" dense outlined hint="" />
+<!--            <q-input v-model="producto.stock_minimo" label="Stock mínimo" dense outlined hint="" />-->
+<!--            <q-input v-model="producto.stock_maximo" label="Stock máximo" dense outlined hint="" />-->
             <div class="text-right" >
               <q-btn color="negative" label="Cancelar" @click="productoDialog = false" no-caps :loading="loading" />
               <q-btn color="primary" label="Guardar" type="submit" no-caps :loading="loading" class="q-ml-sm" />
@@ -253,12 +245,17 @@ export default {
       },
       columns: [
         { name: 'nombre', label: 'Nombre', align: 'left', field: 'nombre' },
-        { name: 'descripcion', label: 'Descripción', align: 'left', field: 'descripcion' },
-        { name: 'unidad', label: 'Unidad', align: 'left', field: 'unidad' },
+        // { name: 'descripcion', label: 'Descripción', align: 'left', field: 'descripcion' },
+        // { name: 'unidad', label: 'Unidad', align: 'left', field: 'unidad' },
         { name: 'precio', label: 'Precio', align: 'left', field: 'precio' },
+        { name: 'cantidadAlmacen', label: 'Cantidad Almacen', align: 'left', field: 'cantidadAlmacen' },
+        { name: 'cantidadSucursal1', label: 'Cantidad Sucursal 1', align: 'left', field: 'cantidadSucursal1' },
+        { name: 'cantidadSucursal2', label: 'Cantidad Sucursal 2', align: 'left', field: 'cantidadSucursal2' },
+        { name: 'cantidadSucursal3', label: 'Cantidad Sucursal 3', align: 'left', field: 'cantidadSucursal3' },
+        // { name: 'stock_minimo', label: 'Stock mínimo', align: 'left', field: 'stock_minimo' },
+        // { name: 'stock_maximo', label: 'Stock máximo', align: 'left', field: 'stock_maximo' },
+        { name: 'barra', label: 'Código de barras', align: 'left', field: 'barra' },
         { name: 'stock', label: 'Stock', align: 'left', field: 'stock' },
-        { name: 'stock_minimo', label: 'Stock mínimo', align: 'left', field: 'stock_minimo' },
-        { name: 'stock_maximo', label: 'Stock máximo', align: 'left', field: 'stock_maximo' },
       ],
       historialDialog: false,
       historialCompras: [],
@@ -268,9 +265,58 @@ export default {
   mounted() {
     this.productosGet()
     this.debouncedCambioPrecio = debounce(this.cambioPrecio, 500)
-    this.debouncedCambioStock = debounce(this.cambioStock, 500)
+    // this.debouncedCambioStock = debounce(this.cambioStock, 500)
+    this.debouncedCambioA = debounce(this.cambioStockA, 500)
+    this.debouncedCambio1 = debounce(this.cambioStock1, 500)
+    this.debouncedCambio2 = debounce(this.cambioStock2, 500)
+    this.debouncedCambio3 = debounce(this.cambioStock3, 500)
+    this.debouncedCambioBarra = debounce(this.cambioBarra, 500)
   },
   methods: {
+    cambioStockA(producto) {
+      this.loading = true
+      this.$axios.put('productos/' + producto.id, { cantidadAlmacen: producto.cantidadAlmacen }).then(res => {
+        this.productosGet()
+        this.$alert.success('Cantidad Almacen actualizada')
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    cambioStock1(producto) {
+      this.loading = true
+      this.$axios.put('productos/' + producto.id, { cantidadSucursal1: producto.cantidadSucursal1 }).then(res => {
+        this.productosGet()
+        this.$alert.success('Cantidad Sucursal 1 actualizada')
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    cambioStock2(producto) {
+      this.loading = true
+      this.$axios.put('productos/' + producto.id, { cantidadSucursal2: producto.cantidadSucursal2 }).then(res => {
+        this.productosGet()
+        this.$alert.success('Cantidad Sucursal 2 actualizada')
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
+    cambioStock3(producto) {
+      this.loading = true
+      this.$axios.put('productos/' + producto.id, { cantidadSucursal3: producto.cantidadSucursal3 }).then(res => {
+        this.productosGet()
+        this.$alert.success('Cantidad Sucursal 3 actualizada')
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
+    },
     verHistorial(producto) {
       this.loading = true;
       this.productoHistorialNombre = producto.nombre;
@@ -283,6 +329,17 @@ export default {
       }).finally(() => {
         this.loading = false;
       });
+    },
+    cambioBarra(producto) {
+      this.loading = true
+      this.$axios.put('productos/' + producto.id, { barra: producto.barra }).then(res => {
+        this.productosGet()
+        this.$alert.success('Código de barras actualizado')
+      }).catch(error => {
+        this.$alert.error(error.response.data.message)
+      }).finally(() => {
+        this.loading = false
+      })
     },
     cambioStock(producto) {
       this.loading = true
