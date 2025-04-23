@@ -10,7 +10,7 @@
         <q-form @submit="clickDialogVenta">
           <div class="row">
             <div class="col-12 col-md-7 q-pa-xs">
-              <q-input v-model="productosSearch" outlined clearable label="Buscar producto" dense debounce="300" @update:modelValue="productosGet">
+              <q-input ref="inputBuscarProducto" v-model="productosSearch" outlined clearable label="Buscar producto" dense debounce="300" @update:modelValue="productosGet">
                 <template v-slot:append>
                   <q-btn flat round dense icon="search" />
                 </template>
@@ -134,7 +134,7 @@
                 <tfoot>
                 <tr>
                   <td colspan="3" class="text-right">Total</td>
-                  <td class="text-right text-bold">{{ productosVentas.reduce((acc, producto) => acc + (producto.cantidad * producto.precio), 0) }} Bs</td>
+                  <td class="text-right text-bold">{{ (productosVentas.reduce((acc, producto) => acc + (producto.cantidad * producto.precio), 0)).toFixed(2) }} Bs</td>
                 </tr>
                 </tfoot>
               </q-markup-table>
@@ -162,7 +162,7 @@
                 <q-input v-model="venta.nombre" outlined dense label="Nombre" />
               </div>
               <div class="col-12 col-md-3 q-pa-xs">
-                <q-select v-model="venta.tipo_venta" outlined dense label="Tipo de venta" :options="['Interno', 'Externo']" />
+<!--                <q-select v-model="venta.tipo_venta" outlined dense label="Tipo de venta" :options="['Interno', 'Externo']" />-->
               </div>
               <div class="col-12 col-md-3 q-pa-xs">
                 <q-select v-model="venta.tipo_pago" outlined dense label="Tipo de pago" :options="['Efectivo', 'QR']" />
@@ -202,7 +202,7 @@
                   <tfoot>
                   <tr>
                     <td colspan="3" class="text-right text-bold">Total</td>
-                    <td class="text-right text-bold">{{ productosVentas.reduce((acc, producto) => acc + (producto.cantidad * producto.precio), 0) }} Bs</td>
+                    <td class="text-right text-bold">{{ (productosVentas.reduce((acc, producto) => acc + (producto.cantidad * producto.precio), 0)).toFixed(2) }} Bs</td>
                   </tr>
                   <tr>
                     <td style="padding: 0;margin: 0;" colspan="3" class="text-right text-bold">Efectivo</td>
@@ -269,6 +269,9 @@ export default {
     };
   },
   mounted() {
+    this.$nextTick(() => {
+      this.$refs.inputBuscarProducto?.focus();
+    });
     this.productosGet();
     if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
       const SpeechRecognition =
@@ -381,6 +384,10 @@ export default {
         this.pagination.rowsNumber = res.data.total;
         this.pagination.page = res.data.current_page;
         this.loading = false;
+        if (this.productos.length === 1 && this.productos[0].barra === this.productosSearch) {
+          this.addProducto(this.productos[0]);
+          this.productosSearch = "";
+        }
       }).catch((error) => {
         this.loading = false;
         console.error(error);
@@ -445,7 +452,7 @@ export default {
       if (cambio < 0) {
         cambio = 0;
       }
-      return cambio;
+      return cambio.toFixed(2);
     },
   },
 };
