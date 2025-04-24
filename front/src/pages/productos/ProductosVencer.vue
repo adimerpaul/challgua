@@ -2,23 +2,43 @@
   <q-page class="q-pa-xs">
     <q-card flat bordered>
       <q-card-section class="q-pa-xs">
-        <div class="text-h6">Productos por Vencer en {{ dias }} días</div>
+        <div class="text-h6">Productos por Vencer</div>
         <div class="row">
-          <div class="col-12 col-md-10 q-pa-xs">
-            <q-slider
-              v-model="dias"
-              :min="1"
-              :max="365"
-              label-always
-              :label-value="`${dias} días`"
+          <div class="col-12 col-md-2">
+            <q-input type="number" v-model="dias" outlined dense label="Número de días" min="1" max="365" @change="consultar">
+              <template v-slot:append>
+                <q-icon name="calendar_today" class="cursor-pointer" @click.stop />
+              </template>
+            </q-input>
+          </div>
+          <div class="col-12 col-md-4 q-pa-xs">
+            <q-option-group
+              v-model="diasSelect"
+              dense
+              inline
+              :options="[
+                { label: 'Días', value: 'Dias' },
+                { label: 'Semanas', value: 'Semanas' },
+                { label: 'Meses', value: 'Meses' },
+                { label: 'Año', value: 'Año' }
+              ]"
               color="primary"
-              class="q-mt-md"
-              @change="consultar"
+              @update:modelValue="consultar"
             />
           </div>
           <div class="col-12 col-md-2">
-            <q-btn label="Consultar" color="green" icon="search" class="q-mt-md" @click="consultar" :loading="loading" no-caps />
+            <q-btn label="Consultar" color="green" icon="search" @click="consultar" :loading="loading" no-caps />
           </div>
+        </div>
+        <div class="flex flex-center">
+          <q-pagination
+            v-model="pagination.page"
+            :max="Math.ceil(pagination.rowsNumber / pagination.rowsPerPage)"
+            @update:modelValue="consultar"
+            color="primary"
+            class="q-mt-md"
+            v-if="pagination.rowsNumber > pagination.rowsPerPage"
+          />
         </div>
 
         <q-markup-table dense class="q-mt-md" flat bordered>
@@ -67,8 +87,14 @@ export default {
   data() {
     return {
       dias: 30,
+      diasSelect: 'Dias',
       productos: [],
-      loading: false
+      loading: false,
+      pagination: {
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 0
+      }
     };
   },
   mounted() {
@@ -77,15 +103,29 @@ export default {
   methods: {
     consultar() {
       this.loading = true;
-      this.$axios.get('/productosPorVencer', { params: { dias: this.dias } })
+
+      const dias = this.diasSelect === 'Dias' ? this.dias : this.dias * (
+        this.diasSelect === 'Semanas' ? 7 :
+          this.diasSelect === 'Meses' ? 30 : 365
+      );
+
+      this.$axios.get('/productosPorVencer', {
+        params: {
+          dias: dias,
+          page: this.pagination.page,
+          perPage: this.pagination.rowsPerPage
+        }
+      })
         .then(res => {
-          this.productos = res.data
+          this.productos = res.data.data; // Laravel pagination structure
+          this.pagination.rowsNumber = res.data.total;
         })
         .catch(() => {
           this.$alert.error("Error al consultar productos por vencer");
-        }).finally(() => {
-        this.loading = false;
-      });
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     diasRestantesColor(fechaVencimiento) {
       const hoy = moment();

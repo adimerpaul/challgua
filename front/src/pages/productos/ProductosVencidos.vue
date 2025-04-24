@@ -18,6 +18,7 @@
               @update:model-value="consultar"
               direction-links
               color="red"
+              v-if="total > porPagina"
             />
           </div>
         </div>
