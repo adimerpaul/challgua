@@ -58,23 +58,29 @@
     <q-markup-table dense wrap-cells>
       <thead>
       <tr class="bg-primary text-white">
+        <th>Opciones</th>
         <th>ID</th>
         <th>Fecha</th>
-        <th>Hora</th>
+        <th>Detalle</th>
         <th>Usuario</th>
         <th>Estado</th>
-        <th>Total</th>
+<!--        <th>Total</th>-->
         <th>Observaciones</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="pedido in pedidos" :key="pedido.id">
+        <td>
+
+        </td>
         <td>{{ pedido.id }}</td>
-        <td>{{ pedido.fecha }}</td>
-        <td>{{ pedido.hora }}</td>
+        <td>{{ pedido.fecha }} {{ pedido.hora }}</td>
+        <td style="max-width: 120px; wrap-option: wrap;line-height: 0.9;">
+          {{ pedido.textDetalle }}
+        </td>
         <td>{{ pedido.user?.name }}</td>
         <td><q-chip :color="pedido.estado === 'Pendiente' ? 'orange' : 'blue'" class="text-white" dense>{{ pedido.estado }}</q-chip></td>
-        <td class="text-bold">{{ pedido.total }} Bs</td>
+<!--        <td class="text-bold">{{ pedido.total }} Bs</td>-->
         <td>{{ pedido.observaciones }}</td>
       </tr>
       </tbody>
