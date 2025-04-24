@@ -20,7 +20,9 @@ class CompraController extends Controller{
         return response()->json($historial);
     }
     public function productosPorVencer(Request $request){
-        $dias = (int) ($request->dias ?? 5); // Conversión explícita
+        $dias = (int) ($request->dias ?? 5);
+        $perPage = (int) ($request->perPage ?? 10); // cantidad por página
+        $page = (int) ($request->page ?? 1);        // página actual
 
         $hoy = Carbon::now();
         $limite = $hoy->copy()->addDays($dias);
@@ -29,10 +31,11 @@ class CompraController extends Controller{
             ->whereNotNull('fecha_vencimiento')
             ->whereBetween('fecha_vencimiento', [$hoy->format('Y-m-d'), $limite->format('Y-m-d')])
             ->orderBy('fecha_vencimiento')
-            ->get();
+            ->paginate($perPage, ['*'], 'page', $page);
 
         return response()->json($productos);
     }
+
     public function productosVencidos(Request $request)
     {
         $hoy = Carbon::now()->format('Y-m-d');
