@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre')->nullable();
             $table->string('barra')->nullable();
-            $table->integer('cantidadAlmacen')->nullable()->default(0)->comment('cantidad en stock almacen');
-            $table->integer('cantidadSucursal1')->nullable()->default(0)->comment('cantidad en stock sucursal 1');
-            $table->integer('cantidadSucursal2')->nullable()->default(0)->comment('cantidad en stock sucursal 2');
-            $table->integer('cantidadSucursal3')->nullable()->default(0)->comment('cantidad en stock sucursal 3');
-            $table->integer('cantidadSucursal4')->nullable()->default(0)->comment('cantidad en stock sucursal 4');
+            $table->integer('stockAlmacen')->nullable()->default(0)->comment('cantidad en stock almacen');
+            $table->integer('stockChallgua')->nullable()->default(0)->comment('cantidad en stock sucursal challgua');
+            $table->integer('stockSocavon')->nullable()->default(0)->comment('cantidad en stock sucursal socavon');
+            $table->integer('stockCatalina')->nullable()->default(0)->comment('cantidad en stock sucursal catalina');
+//            $table->integer('cantidadSucursal4')->nullable()->default(0)->comment('cantidad en stock sucursal 4');
             $table->double('costo',10,2)->nullable();
             $table->double('precioAntes',10,2)->nullable();
             $table->double('precio',10,2)->nullable();

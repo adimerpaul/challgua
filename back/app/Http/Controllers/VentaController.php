@@ -53,12 +53,14 @@ class VentaController extends Controller{
                 $productoFind = Producto::findOrFail($producto['producto_id']);
                 if ($productoFind->stock > 0) {
                     $agencia = $user->agencia;
-                    if ($agencia == 'Challgua') {
-                        $productoFind->cantidadSucursal1 -= $producto['cantidad'];
+                    if ($agencia == 'Almacen') {
+                        $productoFind->stockAlmacen -= $producto['cantidad'];
+                    } elseif ($agencia == 'Challgua') {
+                        $productoFind->stockChallgua -= $producto['cantidad'];
                     } elseif ($agencia == 'Socavon') {
-                        $productoFind->cantidadSucursal2 -= $producto['cantidad'];
+                        $productoFind->stockSocavon -= $producto['cantidad'];
                     } elseif ($agencia == 'Catalina') {
-                        $productoFind->cantidadSucursal3 -= $producto['cantidad'];
+                        $productoFind->stockCatalina -= $producto['cantidad'];
                     }
 //                    $productoFind->stock -= $producto['cantidad'];
 

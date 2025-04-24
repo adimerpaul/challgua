@@ -10,11 +10,11 @@ class Producto extends Model{
     protected $fillable = [
         'nombre',
         'barra',
-        'cantidadAlmacen',
-        'cantidadSucursal1',
-        'cantidadSucursal2',
-        'cantidadSucursal3',
-        'cantidadSucursal4',
+        'stockAlmacen',
+        'stockChallgua',
+        'stockSocavon',
+        'stockCatalina',
+//        'cantidadSucursal4',
         'costo',
         'precioAntes',
         'precio',
@@ -43,6 +43,6 @@ class Producto extends Model{
         'stock',
     ];
     public function getStockAttribute(){
-        return $this->cantidadAlmacen + $this->cantidadSucursal1 + $this->cantidadSucursal2 + $this->cantidadSucursal3 + $this->cantidadSucursal4;
+        return $this->stockAlmacen + $this->stockChallgua + $this->stockSocavon + $this->stockCatalina;
     }
 }

@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
-        $sqlFile = base_path('database/seeders/productos_202504230342.sql');
+        $sqlFile = base_path('database/seeders/productos_202504240447.sql');
         $sqlContent = file_get_contents($sqlFile);
         DB::unprepared($sqlContent);
 
