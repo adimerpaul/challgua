@@ -191,6 +191,10 @@
               <div class="col-12 col-md-6 q-pa-xs">
                 <q-input v-model="compra.nro_factura" outlined dense label="Nro. factura" />
               </div>
+              <div class="col-12 col-md-6 q-pa-xs">
+<!--                agencias-->
+                <q-select v-model="compra.agencia" :options="$agencias" label="Agencia" dense outlined />
+              </div>
               <div class="col-12">
 <!--                table-->
                 <q-markup-table flat dense wrap-cells bordered>
@@ -365,7 +369,8 @@ export default {
         tipo_pago: this.compra.tipo_pago,
         proveedor_id: this.proveedor.id,
         nro_factura: this.compra.nro_factura,
-        productos: this.productosCompras
+        productos: this.productosCompras,
+        agencia: this.compra.agencia,
       };
 
       this.$axios.post("compras", data).then((res) => {
