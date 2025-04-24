@@ -6,26 +6,12 @@
           <q-card-section class="q-pa-none">
             <q-item class="bg-indigo">
               <q-item-section avatar>
-                <q-icon name="monetization_on" size="50px" color="white" />
+                <q-icon name="trending_up" size="50px" color="white" />
               </q-item-section>
               <q-item-section>
-                <q-item-label caption class="text-white">Ventas Interno</q-item-label>
-                <q-item-label  class="text-white text-h4">{{totalInternos}} Bs</q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-card-section>
-        </q-card>
-      </div>
-      <div class="col-12 col-md-4 q-pa-xs">
-        <q-card flat bordered>
-          <q-card-section class="q-pa-none">
-            <q-item class="bg-orange">
-              <q-item-section avatar>
-                <q-icon name="monetization_on" size="50px" color="white" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label caption class="text-white">Ventas Externo</q-item-label>
-                <q-item-label  class="text-white text-h4">{{totalExternos}} Bs</q-item-label>
+                <q-item-label caption class="text-white">Cantidad de Ventas</q-item-label>
+<!--                ventas solo activo-->
+                <q-item-label  class="text-white text-h4">{{(ventas.filter(venta => venta.estado === 'Activo')).length}}</q-item-label>
               </q-item-section>
             </q-item>
           </q-card-section>
@@ -40,7 +26,22 @@
               </q-item-section>
               <q-item-section>
                 <q-item-label caption class="text-white">Ventas Total</q-item-label>
-                <q-item-label  class="text-white text-h4">{{totalInternos + totalExternos}} Bs</q-item-label>
+                <q-item-label  class="text-white text-h4">{{(ventas.filter(venta => venta.estado === 'Activo')).reduce((acc, venta) => acc + parseFloat(venta.total), 0)}} Bs</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-card-section>
+        </q-card>
+      </div>
+      <div class="col-12 col-md-4 q-pa-xs">
+        <q-card flat bordered>
+          <q-card-section class="q-pa-none">
+            <q-item class="bg-red">
+              <q-item-section avatar>
+                <q-icon name="monetization_on" size="50px" color="white" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label caption class="text-white">Ventas Anuladas</q-item-label>
+                <q-item-label  class="text-white text-h4">{{(ventas.filter(venta => venta.estado === 'Anulada')).length}}</q-item-label>
               </q-item-section>
             </q-item>
           </q-card-section>
