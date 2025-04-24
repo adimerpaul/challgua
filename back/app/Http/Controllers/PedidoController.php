@@ -12,13 +12,12 @@ class PedidoController extends Controller {
     public function index(Request $request) {
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        error_log("Fecha Inicio: $fechaInicio");
-        error_log("Fecha Fin: $fechaFin");
         return Pedido::with('detalles.producto')
             ->where('fecha', '>=', $fechaInicio)
             ->where('fecha', '<=', $fechaFin)
             ->orderBy('fecha', 'desc')
             ->orderBy('hora', 'desc')
+            ->with('user')
             ->get();
     }
 

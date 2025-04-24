@@ -17,4 +17,10 @@ class Pedido extends Model {
     public function user() {
         return $this->belongsTo(User::class);
     }
+    protected $appends = ['textDetalle'];
+    public function getTextDetalleAttribute() {
+        return $this->detalles->map(function ($detalle) {
+            return $detalle->producto->nombre . ' (' . $detalle->cantidad . ')';
+        })->implode(', ');
+    }
 }
