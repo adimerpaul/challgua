@@ -96,7 +96,7 @@
           </td>
           <td>
             <input
-              v-model.number="producto.cantidadAlmacen"
+              v-model.number="producto.stockAlmacen"
               type="number"
               step="1"
               min="0"
@@ -106,7 +106,7 @@
           </td>
           <td>
             <input
-              v-model.number="producto.cantidadSucursal1"
+              v-model.number="producto.stockChallgua"
               type="number"
               step="1"
               min="0"
@@ -116,7 +116,7 @@
           </td>
           <td>
             <input
-              v-model.number="producto.cantidadSucursal2"
+              v-model.number="producto.stockSocavon"
               type="number"
               step="1"
               min="0"
@@ -126,7 +126,7 @@
           </td>
           <td>
             <input
-              v-model.number="producto.cantidadSucursal3"
+              v-model.number="producto.stockCatalina"
               type="number"
               step="1"
               min="0"
@@ -213,7 +213,7 @@
               <td>{{ item.compra?.fecha }}</td>
               <td>{{ item.lote }}</td>
               <td>{{ item.fecha_vencimiento }}</td>
-              <td>{{ item.cantidad }}</td>
+              <td>{{ item.stock }}</td>
               <td>{{ item.precio }}</td>
               <td>{{ item.total }}</td>
             </tr>
@@ -248,10 +248,10 @@ export default {
         // { name: 'descripcion', label: 'Descripción', align: 'left', field: 'descripcion' },
         // { name: 'unidad', label: 'Unidad', align: 'left', field: 'unidad' },
         { name: 'precio', label: 'Precio', align: 'left', field: 'precio' },
-        { name: 'cantidadAlmacen', label: 'Cantidad Almacen', align: 'left', field: 'cantidadAlmacen' },
-        { name: 'cantidadSucursal1', label: 'Cantidad Sucursal 1', align: 'left', field: 'cantidadSucursal1' },
-        { name: 'cantidadSucursal2', label: 'Cantidad Sucursal 2', align: 'left', field: 'cantidadSucursal2' },
-        { name: 'cantidadSucursal3', label: 'Cantidad Sucursal 3', align: 'left', field: 'cantidadSucursal3' },
+        { name: 'stockAlmacen', label: 'Cantidad Almacen', align: 'left', field: 'stockAlmacen' },
+        { name: 'stockChallgua', label: 'Cantidad Sucursal 1', align: 'left', field: 'stockChallgua' },
+        { name: 'stockSocavon', label: 'Cantidad Sucursal 2', align: 'left', field: 'stockSocavon' },
+        { name: 'stockCatalina', label: 'Cantidad Sucursal 3', align: 'left', field: 'stockCatalina' },
         // { name: 'stock_minimo', label: 'Stock mínimo', align: 'left', field: 'stock_minimo' },
         // { name: 'stock_maximo', label: 'Stock máximo', align: 'left', field: 'stock_maximo' },
         { name: 'barra', label: 'Código de barras', align: 'left', field: 'barra' },
@@ -275,7 +275,7 @@ export default {
   methods: {
     cambioStockA(producto) {
       this.loading = true
-      this.$axios.put('productos/' + producto.id, { cantidadAlmacen: producto.cantidadAlmacen }).then(res => {
+      this.$axios.put('productos/' + producto.id, { stockAlmacen: producto.stockAlmacen }).then(res => {
         this.productosGet()
         this.$alert.success('Cantidad Almacen actualizada')
       }).catch(error => {
@@ -286,7 +286,7 @@ export default {
     },
     cambioStock1(producto) {
       this.loading = true
-      this.$axios.put('productos/' + producto.id, { cantidadSucursal1: producto.cantidadSucursal1 }).then(res => {
+      this.$axios.put('productos/' + producto.id, { stockChallgua: producto.stockChallgua }).then(res => {
         this.productosGet()
         this.$alert.success('Cantidad Sucursal 1 actualizada')
       }).catch(error => {
@@ -297,7 +297,7 @@ export default {
     },
     cambioStock2(producto) {
       this.loading = true
-      this.$axios.put('productos/' + producto.id, { cantidadSucursal2: producto.cantidadSucursal2 }).then(res => {
+      this.$axios.put('productos/' + producto.id, { stockSocavon: producto.stockSocavon }).then(res => {
         this.productosGet()
         this.$alert.success('Cantidad Sucursal 2 actualizada')
       }).catch(error => {
@@ -308,7 +308,7 @@ export default {
     },
     cambioStock3(producto) {
       this.loading = true
-      this.$axios.put('productos/' + producto.id, { cantidadSucursal3: producto.cantidadSucursal3 }).then(res => {
+      this.$axios.put('productos/' + producto.id, { stockCatalina: producto.stockCatalina }).then(res => {
         this.productosGet()
         this.$alert.success('Cantidad Sucursal 3 actualizada')
       }).catch(error => {

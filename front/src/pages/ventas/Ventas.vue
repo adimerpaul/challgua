@@ -112,12 +112,12 @@
                 </q-item-section>
                 <q-item-section>Anular</q-item-section>
               </q-item>
-              <q-item clickable v-ripple @click="tipoVentasChange(venta.id)" v-close-popup>
-                <q-item-section avatar>
-                  <q-icon name="swap_horiz" />
-                </q-item-section>
-                <q-item-section>Cambiar a {{ venta.tipo_venta === 'Interno' ? 'Externo' : 'Interno' }}</q-item-section>
-              </q-item>
+<!--              <q-item clickable v-ripple @click="tipoVentasChange(venta.id)" v-close-popup>-->
+<!--                <q-item-section avatar>-->
+<!--                  <q-icon name="swap_horiz" />-->
+<!--                </q-item-section>-->
+<!--                <q-item-section>Cambiar a {{ venta.tipo_venta === 'Interno' ? 'Externo' : 'Interno' }}</q-item-section>-->
+<!--              </q-item>-->
             </q-btn-dropdown>
           </td>
           <td>{{ venta.id }}</td>

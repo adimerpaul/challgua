@@ -21,7 +21,7 @@ export default boot(({ app, router }) => {
   app.config.globalProperties.$axios = axios.create({ baseURL: import.meta.env.VITE_API_BACK })
   // console.log(import.meta.env.VITE_API_BACK)
   app.config.globalProperties.$alert = Alert
-  app.config.globalProperties.$agencias = ['Challgua','Socavon','Catalina']
+  app.config.globalProperties.$agencias = ['Almacen','Challgua','Socavon','Catalina']
   // app.config.globalProperties.$socket = io(import.meta.env.VITE_API_SOCKET)
   app.config.globalProperties.$store = useCounterStore()
   app.config.globalProperties.$url = import.meta.env.VITE_API_BACK
