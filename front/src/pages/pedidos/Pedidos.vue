@@ -100,6 +100,10 @@
               <q-item-section avatar><q-icon name="print" /></q-item-section>
               <q-item-section>Imprimir</q-item-section>
             </q-item>
+            <q-item clickable @click="observaciones(pedido)" v-close-popup>
+              <q-item-section avatar><q-icon name="edit" /></q-item-section>
+              <q-item-section>Observaciones</q-item-section>
+            </q-item>
           </q-btn-dropdown>
         </td>
         <td>{{ pedido.id }}</td>
@@ -149,6 +153,28 @@ export default {
     }
   },
   methods: {
+    observaciones(pedido) {
+      this.$q.dialog({
+        title: 'Observaciones',
+        message: 'Ingrese las observaciones del pedido',
+        prompt: {
+          model: pedido.observaciones,
+          type: 'textarea',
+          outlined: true,
+          label: 'Observaciones',
+
+        },
+        cancel: true,
+        persistent: true
+      }).onOk((observaciones) => {
+        this.$axios.put(`/pedidos/${pedido.id}`, { observaciones }).then(() => {
+          this.cargarPedidos();
+          this.$alert.success("Observaciones guardadas");
+        }).catch(() => {
+          this.$alert.error("Error al guardar las observaciones");
+        });
+      });
+    },
     imprimir(pedido) {
       Imprimir.reciboPedido(pedido);
     },
