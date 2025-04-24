@@ -31,8 +31,9 @@ class VentaController extends Controller{
         DB::beginTransaction();
         try {
             $cliente = $this->clienteUpdateOrCreate($request);
+            $user = $request->user();
 
-            $request->merge(['user_id' => auth()->user()->id,]);
+            $request->merge(['user_id' => $user->id,]);
             $request->merge(['cliente_id' => $cliente->id,]);
             $request->merge(['fecha' => date('Y-m-d'),]);
             $request->merge(['hora' => date('H:i:s'),]);
@@ -51,7 +52,16 @@ class VentaController extends Controller{
 
                 $productoFind = Producto::findOrFail($producto['producto_id']);
                 if ($productoFind->stock > 0) {
-                    $productoFind->stock -= $producto['cantidad'];
+                    $agencia = $user->agencia;
+                    if ($agencia == 'Challgua') {
+                        $productoFind->cantidadSucursal1 -= $producto['cantidad'];
+                    } elseif ($agencia == 'Socavon') {
+                        $productoFind->cantidadSucursal2 -= $producto['cantidad'];
+                    } elseif ($agencia == 'Catalina') {
+                        $productoFind->cantidadSucursal3 -= $producto['cantidad'];
+                    }
+//                    $productoFind->stock -= $producto['cantidad'];
+
                     $productoFind->save();
                 }
             }
