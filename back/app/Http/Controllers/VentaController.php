@@ -11,10 +11,49 @@ use Illuminate\Support\Facades\DB;
 
 class VentaController extends Controller{
     function anular(Request $request, $id){
-        $venta = Venta::findOrFail($id);
-        $venta->update(['estado' => 'Anulada']);
-        return $venta;
+        DB::beginTransaction();
+        try {
+            $venta = Venta::with('ventaDetalles.producto')->findOrFail($id);
+
+            if ($venta->estado === 'Anulada') {
+                return response()->json(['message' => 'La venta ya ha sido anulada.'], 400);
+            }
+
+            $user = $request->user();
+
+            foreach ($venta->ventaDetalles as $detalle) {
+                $producto = $detalle->producto;
+
+                if ($producto) {
+                    $cantidad = $detalle->cantidad;
+                    switch ($user->agencia) {
+                        case 'Almacen':
+                            $producto->stockAlmacen += $cantidad;
+                            break;
+                        case 'Challgua':
+                            $producto->stockChallgua += $cantidad;
+                            break;
+                        case 'Socavon':
+                            $producto->stockSocavon += $cantidad;
+                            break;
+                        case 'Catalina':
+                            $producto->stockCatalina += $cantidad;
+                            break;
+                    }
+                    $producto->save();
+                }
+            }
+
+            $venta->update(['estado' => 'Anulada']);
+
+            DB::commit();
+            return response()->json(['message' => 'Venta anulada y stock actualizado correctamente.', 'venta' => $venta]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error al anular la venta: ' . $e->getMessage()], 500);
+        }
     }
+
     function tipoVentasChange(Request $request, $id){
         $venta = Venta::findOrFail($id);
         $tipo_venta = $venta->tipo_venta;
