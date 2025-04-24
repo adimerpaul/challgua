@@ -9,6 +9,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller {
+    public function update(Request $request, Pedido $pedido) {
+        DB::beginTransaction();
+        try {
+            $pedido->update($request->all());
+            DB::commit();
+            return response()->json($pedido);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
     public function index(Request $request) {
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;

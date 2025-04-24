@@ -47,8 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/productosVencidos', [App\Http\Controllers\CompraController::class, 'productosVencidos']);
     Route::get('/productos/{id}/historial-compras', [App\Http\Controllers\CompraController::class, 'historialCompras']);
 
-//    pedidos get store
     Route::get('/pedidos', [App\Http\Controllers\PedidoController::class, 'index']);
+    Route::put('/pedidos/{pedido}', [App\Http\Controllers\PedidoController::class, 'update']);
     Route::post('/pedidos', [App\Http\Controllers\PedidoController::class, 'store']);
 
 //    Route::get('/productosPorVencer', [App\Http\Controllers\CompraController::class, 'productosPorVencer']);
