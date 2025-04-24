@@ -14,6 +14,7 @@ class CompraDetalle extends Model{
         'precio',
         'cantidad',
         'total',
+        'factor',
         'precio13',
         'total13',
         'precio_venta',

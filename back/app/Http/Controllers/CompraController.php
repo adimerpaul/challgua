@@ -141,6 +141,7 @@ class CompraController extends Controller{
                     'precio' => $p['precio'],
                     'cantidad' => $p['cantidad'],
                     'total' => $p['precio'] * $p['cantidad'],
+                    'factor' => $p['factor'],
                     'precio13' => $p['precio'] * 1.3,
                     'total13' => $p['precio'] * $p['cantidad'] * 1.3,
                     'precio_venta' => $p['precio_venta'],
