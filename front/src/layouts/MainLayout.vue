@@ -71,7 +71,7 @@
                    active-class="menu"
                    dense
                    v-close-popup
-                   v-if="link.can === 'Todos' || $store.user.role === link.can"
+                   v-if="link && $store.user && (link.can.includes($store.user.role) || link.can.includes('Todos'))"
           >
             <q-item-section avatar>
               <q-icon :name="$route.path === link.link ? 'o_' + link.icon : link.icon"
@@ -119,10 +119,13 @@ onMounted(() => {
     { title: 'Principal', icon: 'home', link: '/', can: 'Todos' },
     { title: 'Usuarios', icon: 'people', link: '/usuarios', can: 'Admin' },
     { title: 'Productos', icon: 'shopping_cart', link: '/productos', can: 'Admin' },
-    // { path: 'venta', name: 'venta', component: () => import('pages/ventas/Ventas.vue'), meta: { requiresAuth: true } },
-    // { path: 'ventaNuevo', name: 'ventaNuevo', component: () => import('pages/ventas/VentaNew.vue'), meta: { requiresAuth: true } },
     { title: 'Ventas', icon: 'shopping_bag', link: '/venta', can: 'Todos' },
     { title: 'Nueva Venta', icon: 'add_shopping_cart', link: '/ventaNuevo', can: 'Todos' },
+    { title: 'Proveedores', icon: 'manage_accounts', link: '/proveedores', can: ['Todos']},
+    { title: 'Compras', icon: 'storefront', link: '/compras', can: ['Todos']},
+    { title: 'Compras Nueva', icon: 'shopping_basket', link: '/compras-create', can: ['Todos']},
+    { title: 'Productos por vencer', icon: 'warning', link: '/productos-vencer', can: ['Todos']},
+    { title: 'Productos vencidos', icon: 'do_not_touch', link: '/productos-vencidos', can: ['Todos']},
   ]
   linksList.value = baseLinks
 
