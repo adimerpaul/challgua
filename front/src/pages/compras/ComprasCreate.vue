@@ -193,7 +193,9 @@
               </div>
               <div class="col-12 col-md-6 q-pa-xs">
 <!--                agencias-->
-                <q-select v-model="compra.agencia" :options="$agencias" label="Agencia" dense outlined />
+                <q-select v-model="compra.agencia" :options="$agencias" label="Agencia" dense outlined :rules="[
+                  val => !!val || 'Campo requerido',
+                ]" />
               </div>
               <div class="col-12">
 <!--                table-->
@@ -379,6 +381,12 @@ export default {
         this.productosCompras = [];
         Imprimir.reciboCompra(res.data);
         this.productosGet();
+        this.compra = {
+          nit: "",
+          nombre: "",
+          tipo_pago: "Efectivo"
+        };
+        this.proveedor = null;
       }).catch((err) => {
         console.error("Error registrando compra:", err);
         this.$alert.error("Error al registrar la compra");

@@ -48,7 +48,7 @@
             <q-btn color="primary" label="Buscar" icon="search" @click="cargarPedidos" :loading="loading" no-caps />
           </div>
           <div class="col-12 col-md-3">
-            <q-btn color="positive" label="Nuevo Pedido" icon="add_circle_outline" @click="$router.push({ name: 'pedidos-create' })" no-caps />
+            <q-btn color="positive" label="Nuevo Pedido" icon="add_circle_outline" @click="$router.push('pedidosCompra')" no-caps />
           </div>
         </div>
       </q-card-section>
@@ -105,6 +105,7 @@ export default {
   methods: {
     cargarPedidos() {
       this.loading = true;
+      console.log(this.fechaInicio, this.fechaFin);
       this.$axios.get('/pedidos', {
         params: {
           fechaInicio: this.fechaInicio,

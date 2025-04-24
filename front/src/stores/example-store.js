@@ -8,6 +8,11 @@ export const useCounterStore = defineStore('counter', {
     permissions: [],
     reservas: [],
     socketReservas: null,
+    env: {
+      razon: import.meta.env.VITE_RAZON,
+      direccion: import.meta.env.VITE_DIR,
+      telefono: import.meta.env.VITE_TEL,
+    },
   }),
 
   getters: {

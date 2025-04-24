@@ -1,7 +1,7 @@
 import QRCode from 'qrcode'
 import { useCounterStore } from 'stores/example-store'
 import { Printd } from 'printd'
-// import conversor from 'conversor-numero-a-letras-es-ar'
+import conversor from 'conversor-numero-a-letras-es-ar'
 import { Unidades } from 'numero-a-letras';
 
 import moment from 'moment'
@@ -445,6 +445,7 @@ Oruro</div>
   }
 
   static reciboCompra (buy) {
+    console.log('reciboCompra', buy)
     return new Promise((resolve, reject) => {
       const ClaseConversor = conversor.conversorNumerosALetras
       const miConversor = new ClaseConversor()
@@ -475,11 +476,11 @@ Oruro</div>
     <hr>
     <table>
     </table><hr><div class='titulo'>DETALLE</div>`
-        // factura.details.forEach(r => {
-        cadena += `<div style='font-size: 12px'><b>${buy.product_id} ${buy.product.descripcion} </b></div>`
-        cadena += `<div>${buy.quantity} ${parseFloat(buy.price).toFixed(2)} 0.00
-          //           <span style='float:right'>${parseFloat(buy.total).toFixed(2)}</span></div>`
-        // })
+        buy.compra_detalles.forEach(r => {
+        cadena += `<div style='font-size: 12px'><b>${r.nombre} </b></div>`
+        cadena += `<div>${r.cantidad} ${parseFloat(r.precio).toFixed(2)} 0.00
+          <span style='float:right'>${parseFloat(r.total).toFixed(2)}</span></div>`
+        })
         cadena += `<hr>
       <table style='font-size: 8px;'>
       <tr><td class='titder' style='width: 60%'>SUBTOTAL Bs</td><td class='conte2'>${parseFloat(buy.total).toFixed(2)}</td></tr>
