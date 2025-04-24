@@ -303,6 +303,11 @@ export default {
   },
   methods: {
     registrarPedido() {
+      if (this.productosCompras.length === 0) {
+        this.$alert.error("Debe agregar al menos un producto");
+        return;
+      }
+
       this.$q.dialog({
         title: "Registrar pedido",
         message: "¿Está seguro de registrar el pedido?",
@@ -315,7 +320,8 @@ export default {
         }).then((res) => {
           this.$alert.success("Pedido registrado correctamente");
           this.productosCompras = [];
-          this.productosGet();
+          // this.productosGet();
+          Imprimir.reciboPedido(res.data);
         }).catch((err) => {
           console.error("Error registrando pedido:", err);
           this.$alert.error("Error al registrar el pedido");
