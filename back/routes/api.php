@@ -35,6 +35,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/ventasAnular/{venta}', [App\Http\Controllers\VentaController::class, 'anular']);
     Route::put('/tipoVentasChange/{venta}', [App\Http\Controllers\VentaController::class, 'tipoVentasChange']);
 
+    Route::get('/proveedores', [App\Http\Controllers\ProveedorController::class, 'index']);
+    Route::post('/proveedores', [App\Http\Controllers\ProveedorController::class, 'store']);
+    Route::put('/proveedores/{proveedor}', [App\Http\Controllers\ProveedorController::class, 'update']);
+    Route::delete('/proveedores/{proveedor}', [App\Http\Controllers\ProveedorController::class, 'destroy']);
+
+    Route::get('compras', [App\Http\Controllers\CompraController::class, 'index']);
+    Route::put('comprasAnular/{id}', [App\Http\Controllers\CompraController::class, 'anular']);
+    Route::post('compras', [App\Http\Controllers\CompraController::class, 'store']);
+    Route::get('/productosPorVencer', [App\Http\Controllers\CompraController::class, 'productosPorVencer']);
+    Route::get('/productosVencidos', [App\Http\Controllers\CompraController::class, 'productosVencidos']);
+    Route::get('/productos/{id}/historial-compras', [App\Http\Controllers\CompraController::class, 'historialCompras']);
+
 //    Route::get('/productosPorVencer', [App\Http\Controllers\CompraController::class, 'productosPorVencer']);
 //    Route::get('/productosVencidos', [App\Http\Controllers\CompraController::class, 'productosVencidos']);
 //    Route::get('/productos/{id}/historial-compras', [App\Http\Controllers\CompraController::class, 'historialCompras']);
