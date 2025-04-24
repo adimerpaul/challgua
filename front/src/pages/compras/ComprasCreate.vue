@@ -10,7 +10,7 @@
         <q-form @submit="clickDialogCompra">
           <div class="row">
             <!-- Buscar productos -->
-            <div class="col-12 col-md-6 q-pa-xs">
+            <div class="col-12 col-md-5 q-pa-xs">
               <q-input v-model="productosSearch" outlined clearable label="Buscar producto" dense debounce="300" @update:modelValue="productosGet">
                 <template v-slot:append>
                   <q-btn flat round dense icon="search" />
@@ -79,7 +79,7 @@
             </div>
 
             <!-- Lista de productos agregados -->
-            <div class="col-12 col-md-6 q-pa-xs">
+            <div class="col-12 col-md-7 q-pa-xs">
               <div>
                 <q-btn size="xs" flat round dense icon="delete" color="red" @click="productosCompras = []" class="q-mb-sm" />
                 <span class="text-subtitle2">Productos seleccionados</span>
@@ -91,11 +91,13 @@
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Cantidad</th>
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Precio unitario</th>
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Total</th>
-                  <th class="pm-none" style="max-width: 70px;line-height: 0.9">Precio unitario 1.3</th>
+                  <th class="pm-none" style="max-width: 70px;line-height: 0.9">Factor</th>
+                  <th class="pm-none" style="max-width: 70px;line-height: 0.9">Precio unitario 1.25</th>
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Total</th>
                   <th class="pm-none" style="max-width: 60px;line-height: 0.9">Precio venta</th>
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Lote</th>
                   <th class="pm-none" style="max-width: 70px;line-height: 0.9">Fecha vencimiento</th>
+                  <th class="pm-none" style="max-width: 70px;line-height: 0.9">Dias vencimiento</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,11 +119,14 @@
                   <td class="text-right pm-none">
                     {{ parseFloat(producto.cantidad * producto.precio).toFixed(2) }}
                   </td>
+                  <td class="pm-none">
+                    <input v-model="producto.factor" type="number" style="width: 55px;" step="0.001" @keyup="updatePrecioVenta(producto)" @update="updatePrecioVenta(producto)" />
+                  </td>
                   <td class="text-right pm-none text-bold">
-                    {{ parseFloat(producto.precio * 1.3).toFixed(2) }}
+                    {{ parseFloat(producto.precio * producto.factor).toFixed(2) }}
                   </td>
                   <td class="text-right pm-none">
-                    {{ parseFloat(producto.cantidad * producto.precio * 1.3).toFixed(2) }}
+                    {{ parseFloat(producto.cantidad * producto.precio * producto.factor).toFixed(2) }}
                   </td>
                   <td class="pm-none">
                     <input v-model="producto.precio_venta" type="number" style="width: 55px;color: red;font-weight: bold"
@@ -132,6 +137,11 @@
                   </td>
                   <td class="pm-none">
                     <input v-model="producto.fecha_vencimiento" type="date" style="width: 100px;" />
+                  </td>
+                  <td class="pm-none text-right">
+                    <span :class="`text-bold ${(new Date(producto.fecha_vencimiento) - new Date()) < 0 ? 'text-red' : (Math.ceil((new Date(producto.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24)) < 30 ? 'text-red' : (Math.ceil((new Date(producto.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24)) < 60 ? 'text-orange' : 'text-green'))}`">
+                      {{ producto.fecha_vencimiento ? Math.ceil((new Date(producto.fecha_vencimiento) - new Date()) / (1000 * 60 * 60 * 24)) : '' }}
+                    </span>
                   </td>
                 </tr>
                 </tbody>
@@ -285,7 +295,7 @@ export default {
   },
   methods: {
     updatePrecioVenta(productoVenta) {
-      const precio_venta = Math.ceil(productoVenta.precio * 1.3);
+      const precio_venta = Math.ceil(productoVenta.precio * productoVenta.factor);
       productoVenta.precio_venta = precio_venta;
     },
     productosGet() {
@@ -317,6 +327,7 @@ export default {
           lote: '',
           fecha_vencimiento: '',
           producto,
+          factor: 1.25,
         });
       }
     },
