@@ -73,6 +73,7 @@ class VentaController extends Controller{
             $user = $request->user();
 
             $request->merge(['user_id' => $user->id,]);
+            $request->merge(['agencia' => $user->agencia,]);
             $request->merge(['cliente_id' => $cliente->id,]);
             $request->merge(['fecha' => date('Y-m-d'),]);
             $request->merge(['hora' => date('H:i:s'),]);
