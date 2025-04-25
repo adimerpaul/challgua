@@ -342,7 +342,7 @@ export default {
             } else {
               this.productosCompras.push({
                 producto_id: producto.id,
-                cantidad: 1,
+                cantidad: prod.cantidad,
                 precio: '',
                 lote: '',
                 fecha_vencimiento: '',
