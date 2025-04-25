@@ -532,11 +532,14 @@ Oruro</div>
     Tel. ${env.telefono}<br>
     Oruro</div>
     <hr>
-    <table>
-    </table>
-<!--    fecha y hora-->
-    <div class='titulo'>FECHA HORA</div>
-    <div class='titulo2'>${buy.fecha} ${buy.hora}</div>
+    <div style='display: flex;justify-content: space-between;'>
+        <div class='titulo'>FECHA HORA</div>
+        <div class='titulo2'>${buy.fecha} ${buy.hora}</div>
+    </div>
+    <div style='display: flex;justify-content: space-between;'>
+        <div class='titulo'>ID</div>
+        <div class='titulo2'>${buy.id}</div>
+    </div>
     <hr>
     <div class='titulo'>DETALLE</div>`
         buy.detalles.forEach(r => {

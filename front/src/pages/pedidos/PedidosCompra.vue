@@ -314,6 +314,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
+        this.loading = true;
         this.$axios.post("pedidos", {
           productos: this.productosCompras,
           observaciones: this.observaciones,
@@ -325,6 +326,8 @@ export default {
         }).catch((err) => {
           console.error("Error registrando pedido:", err);
           this.$alert.error("Error al registrar el pedido");
+        }).finally(() => {
+          this.loading = false;
         });
       });
 
