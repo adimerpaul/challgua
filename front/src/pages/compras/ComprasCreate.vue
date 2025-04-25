@@ -80,9 +80,14 @@
 
             <!-- Lista de productos agregados -->
             <div class="col-12 col-md-7 q-pa-xs">
-              <div>
-                <q-btn size="xs" flat round dense icon="delete" color="red" @click="productosCompras = []" class="q-mb-sm" />
-                <span class="text-subtitle2">Productos seleccionados</span>
+              <div style="display: flex;align-items: center;justify-content: space-between;">
+                <span>
+                  <q-btn size="xs" flat round dense icon="delete" color="red" @click="productosCompras = []" class="q-mb-sm" />
+                  <span class="text-subtitle2">Productos seleccionados</span>
+                </span>
+                <span>
+                  <q-btn size="xs" dense icon="restore" color="blue" class="q-mb-sm" label="Recuperar pedidos" no-caps @click="recuperarPedido" />
+                </span>
               </div>
               <q-markup-table dense wrap-cells flat bordered>
                 <thead>
@@ -300,6 +305,59 @@ export default {
     },
   },
   methods: {
+    recuperarPedido() {
+      // COlcoar el id del pedido
+      this.$q.dialog({
+        title: "Recuperar pedido",
+        message: "Ingrese el ID del pedido",
+        prompt: {
+          model: "",
+          type: "text",
+          isValid: (val) => {
+            return !!val || "Campo requerido";
+          },
+        },
+        persistent: true,
+        cancel: true,
+        ok: {
+          label: "Recuperar",
+          color: "primary",
+        },
+      }).onOk((data) => {
+        this.loading = true;
+        this.$axios.get("recuperarPedido", {
+          params: {
+            id: data
+          }
+        }).then((res) => {
+          if (!res.data.detalles || res.data.detalles.length === 0) {
+            this.$alert.error("No se encontraron productos en el pedido");
+            return;
+          }
+          res.data.detalles.forEach((prod) => {
+            const producto = prod.producto;
+            const existente = this.productosCompras.find(p => p.producto_id === producto.id);
+            if (existente) {
+              existente.cantidad += 1;
+            } else {
+              this.productosCompras.push({
+                producto_id: producto.id,
+                cantidad: 1,
+                precio: '',
+                lote: '',
+                fecha_vencimiento: '',
+                producto,
+                factor: 1.25,
+              });
+            }
+          });
+        }).catch((error) => {
+          console.error("Error recuperando pedido:", error);
+        }).finally(() => {
+          this.loading = false;
+        });
+      });
+    },
     updatePrecioVenta(productoVenta) {
       const precio_venta = Math.ceil(productoVenta.precio * productoVenta.factor);
       productoVenta.precio_venta = precio_venta;
