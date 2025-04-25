@@ -136,14 +136,24 @@ class VentaController extends Controller{
     function index(Request $request){
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
-        $user = $request->user;
+        $user_id = $request->user;
+        $user = $request->user();
 
-        $ventas = Venta::with('user', 'cliente')
-            ->whereBetween('fecha', [$fechaInicio, $fechaFin])
-            ->orderBy('created_at', 'desc')
-            ->get();
-        if ($user != '') {
-            $ventas = $ventas->where('user_id', $user);
+        if ($user->role == 'Admin') {
+            $ventas = Venta::with('user', 'cliente')
+                ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }else{
+            $ventas = Venta::with('user', 'cliente')
+                ->where('user_id', $user->id)
+                ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+                ->where('agencia', $user->agencia)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+        if ($user_id != '') {
+            $ventas = $ventas->where('user_id', $user_id);
         }
         return $ventas;
     }
