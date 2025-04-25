@@ -93,7 +93,7 @@
           <th>Estado</th>
           <th>Total</th>
           <th>Detalle</th>
-<!--          <th>Tipo venta</th>-->
+          <th>Agencia</th>
         </tr>
       </thead>
       <tbody>
@@ -141,9 +141,9 @@
               {{ venta.detailsText }}
             </div>
           </td>
-<!--          <td>-->
-<!--            <q-chip :color="venta.tipo_venta === 'Interno' ? 'indigo' : 'orange'" class="text-white" dense>{{ venta.tipo_venta }}</q-chip>-->
-<!--          </td>-->
+          <td>
+              {{ venta.agencia }}
+          </td>
         </tr>
       </template>
       <template v-else>
