@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller {
+    function recuperarPedido(Request $request) {
+        $pedido = Pedido::with('detalles.producto')
+            ->where('id', $request->id)
+            ->first();
+        return response()->json($pedido);
+    }
     public function update(Request $request, Pedido $pedido) {
         DB::beginTransaction();
         try {
